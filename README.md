@@ -14,3 +14,10 @@ uv add ruff
 
 uv add fastapi --extra standard
 
+创建pre-commit-config.yaml
+使用
+
+官网配置ruff
+
+
+

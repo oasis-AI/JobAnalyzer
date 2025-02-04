@@ -1,23 +1,101 @@
 repos:
+  # 基础通用检查
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
+    rev: v4.5.0  # 升级到最新稳定版
     hooks:
-    -   id: check-yaml
-    -   id: end-of-file-fixer
-    -   id: trailing-whitespace
+      # 检查 YAML 文件的格式
+      - id: check-yaml
+      # 确保文件以空行结尾
+      - id: end-of-file-fixer
+      # 移除行尾的多余空格
+      - id: trailing-whitespace
+      # 阻止大文件提交
+      - id: check-added-large-files
+        # 限制文件大小 1MB
+        args: [--maxkb=1024]
+      # 检查文件名是否存在大小写冲突
+      - id: check-case-conflict
+      # 检查函数或类的第一个语句是否为文档字符串（docstring）。
+      - id: check-docstring-first
+      # 检查代码中是否存在合并冲突标记。
+      - id: check-merge-conflict
+      # 修复文件中的字节顺序标记（BOM）。
+      - id: fix-byte-order-marker
+      # 修复混合的行尾符，参数 --fix=lf 指定将行尾符统一为 LF（换行符）。
+      - id: mixed-line-ending
+        args:
+          - --fix=lf
 
+  # 项目管理（uv 集成）
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
     rev: 0.5.25
     hooks:
+      # 使用 uv-lock 钩子来管理依赖锁定
       - id: uv-lock
+        # 自动同步 pyproject.toml 和 uv.lock
+        # args: [ --sync ]
 
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    # Ruff version.
-    rev: v0.9.4
+  # # 使用 Ruff 替代 flake8/isort/black（现代化工具）
+  # - repo: https://github.com/astral-sh/ruff-pre-commit
+  #   # Ruff version.
+  #   rev: v0.9.4
+  #   hooks:
+  #     # 运行 linter 来检查代码
+  #     - id: ruff
+  #       args: [ --fix, --exit-non-zero-on-fix ]  # 自动修复问题
+  #       # # 排除目录示例（按需修改）
+  #       # exclude: ^(tests|examples)/
+
+  #     # 使用 ruff 格式化代码
+  #     - id: ruff-format  # 格式化工具（替代 black）
+  #       # args: [ --line-length=120 ]  # 设置行长度
+
+  - repo: local
     hooks:
-      # Run the linter.
-      - id: ruff
-        args: [ --fix ]
-      # Run the formatter.
+      # 使用 ruff 格式化代码
       - id: ruff-format
+        name: ruff format
+        language: system
+        entry: ruff
+        args: [format]
+
+        pass_filenames: false
+
+      - id: ruff-lint
+        name: ruff lint and fix
+        language: system
+        entry: ruff
+        args: [check, --fix, --exit-non-zero-on-fix, .]
+        pass_filenames: false
+
+  # Commit 信息规范（可选）
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.15.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]  # 校验 commit 格式
+
+  # # 类型检查（可选）
+  # - repo: https://github.com/pre-commit/mirrors-mypy
+  #   rev: v1.9.0  # mypy 最新版
+  #   hooks:
+  #     - id: mypy
+  #       args: [--ignore-missing-imports]
+  #       files: \.py$
+  #       # 排除测试文件示例
+  #       exclude: ^tests/
+
+  # 自动格式化 JSON 文件
+  - repo: https://github.com/pre-commit/mirrors-jsonlint
+    rev: v1.8.0
+    hooks:
+      - id: jsonlint
+        files: \.json$
+
+  # # Python 文档检查工具 docformatter
+  # - repo: https://github.com/myint/docformatter
+  #   rev: v1.4.1
+  #   hooks:
+  #     - id: docformatter
+  #       args: [ --in-place ]  # 自动格式化 docstring

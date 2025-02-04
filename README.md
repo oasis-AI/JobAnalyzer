@@ -18,6 +18,3 @@ uv add fastapi --extra standard
 使用
 
 官网配置ruff
-
-
-

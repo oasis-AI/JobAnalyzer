@@ -3,8 +3,12 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0  # 升级到最新稳定版
     hooks:
+      # 检查 TOML 文件的格式
+      - id: check-toml
       # 检查 YAML 文件的格式
       - id: check-yaml
+        args:
+          - --unsafe
       # 确保文件以空行结尾
       - id: end-of-file-fixer
       # 移除行尾的多余空格
@@ -86,12 +90,12 @@ repos:
   #       # 排除测试文件示例
   #       exclude: ^tests/
 
-  # 自动格式化 JSON 文件
-  - repo: https://github.com/pre-commit/mirrors-jsonlint
-    rev: v1.8.0
-    hooks:
-      - id: jsonlint
-        files: \.json$
+  # # 自动格式化 JSON 文件
+  # - repo: https://github.com/pre-commit/mirrors-jsonlint
+  #   rev: v1.8.0
+  #   hooks:
+  #     - id: jsonlint
+  #       files: \.json$
 
   # # Python 文档检查工具 docformatter
   # - repo: https://github.com/myint/docformatter
@@ -99,3 +103,8 @@ repos:
   #   hooks:
   #     - id: docformatter
   #       args: [ --in-place ]  # 自动格式化 docstring
+
+
+ci:
+  autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
+  autoupdate_commit_msg: ⬆ [pre-commit.ci] pre-commit autoupdate

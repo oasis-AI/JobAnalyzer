@@ -5,6 +5,7 @@
         "fastapi",
         "JobAnalyzer",
         "liulin",
+        "pydantic",
         "shiyu",
         "uvicorn"
     ]

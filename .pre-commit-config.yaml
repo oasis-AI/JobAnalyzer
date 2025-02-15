@@ -105,6 +105,6 @@ repos:
   #       args: [ --in-place ]  # 自动格式化 docstring
 
 
-ci:
-  autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
-  autoupdate_commit_msg: ⬆ [pre-commit.ci] pre-commit autoupdate
+# ci:
+#   autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
+#   autoupdate_commit_msg: ⬆ [pre-commit.ci] pre-commit autoupdate

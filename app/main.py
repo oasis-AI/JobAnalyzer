@@ -1,20 +1,15 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from app.routers import interview, leetcode
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+def get_applications():
+    app = FastAPI()
+
+    app.include_router(leetcode.router, prefix="/leetcode", tags=["leetcode"])
+    app.include_router(interview.router, prefix="/interview", tags=["interview"])
+
+    return app
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str | None = None):
-    return {
-        "item_id": item_id,
-        "q": q,
-        "Hello": "World",
-        "item_id_type": type(item_id),
-        "q_type": type(q),
-        "item_id_q": item_id + int(q) if q else item_id,
-    }
+app = get_applications()

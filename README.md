@@ -18,3 +18,10 @@ uv add fastapi --extra standard
 使用
 
 官网配置ruff
+
+
+
+
+
+启动
+uvicorn app.main:app --reload --port 8000

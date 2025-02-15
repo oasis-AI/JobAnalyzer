@@ -26,6 +26,14 @@ class Settings(BaseSettings):
 
     SENTRY_DSN: HttpUrl | None = None
     ENVIRONMENT: Literal["local", "staging", "production"] = "local"
+    # SQLALCHEMY_DATABASE_URI: PostgresDsn = "postgresql://user:pass@localhost/db"
+    # database_url: PostgresDsn = PostgresDsn(
+    #     "postgresql://postgres:postgres@localhost:5432/test_db"
+    # )
+    # database_url: MySQLDsn = MySQLDsn(
+    #     "mysql+pymysql://root:123456@localhost:3306/test_db"
+    # )
+    database_url: str = "mysql+pymysql://root:barn@localhost:3306/test_db"
 
     auth_key: str = Field(default="default_auth_key", validation_alias="my_auth_key")
     api_key: str = Field(default="default_api_key", alias="my_api_key")

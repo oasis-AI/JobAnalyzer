@@ -7,6 +7,8 @@
         "liulin",
         "pydantic",
         "shiyu",
-        "uvicorn"
+        "sqlalchemy",
+        "uvicorn",
+        "venv"
     ]
 }

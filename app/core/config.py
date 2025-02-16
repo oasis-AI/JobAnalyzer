@@ -1,15 +1,18 @@
 from collections.abc import Callable
-from typing import Any, Literal
+from typing import Annotated, Any, Literal
 
 from pydantic import (
     AliasChoices,
     AmqpDsn,
+    AnyUrl,
     BaseModel,
+    BeforeValidator,
     Field,
     HttpUrl,
     ImportString,
     PostgresDsn,
     RedisDsn,
+    computed_field,
 )
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -17,6 +20,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class SubModel(BaseModel):
     foo: str = "bar"
     apple: int = 1
+
+
+def parse_cors(v: Any) -> list[str] | str:
+    if isinstance(v, str) and not v.startswith("["):
+        return [i.strip() for i in v.split(",")]
+    elif isinstance(v, list | str):
+        return v
+    raise ValueError(v)
 
 
 class Settings(BaseSettings):
@@ -34,6 +45,19 @@ class Settings(BaseSettings):
     #     "mysql+pymysql://root:123456@localhost:3306/test_db"
     # )
     database_url: str = "mysql+pymysql://root:barn@localhost:3306/test_db"
+
+    FRONTEND_HOST: str = "http://localhost:5173"
+
+    BACKEND_CORS_ORIGINS: Annotated[
+        list[AnyUrl] | str, BeforeValidator(parse_cors)
+    ] = []
+
+    @computed_field
+    @property
+    def all_cors_origins(self) -> list[str]:
+        return [str(origin).rstrip("/") for origin in self.BACKEND_CORS_ORIGINS] + [
+            self.FRONTEND_HOST
+        ]
 
     auth_key: str = Field(default="default_auth_key", validation_alias="my_auth_key")
     api_key: str = Field(default="default_api_key", alias="my_api_key")

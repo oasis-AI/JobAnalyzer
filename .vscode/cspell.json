@@ -5,9 +5,13 @@
         "fastapi",
         "JobAnalyzer",
         "liulin",
+        "onupdate",
+        "optionalize",
         "pydantic",
         "shiyu",
+        "spongebob",
         "sqlalchemy",
+        "Squarepants",
         "uvicorn",
         "venv"
     ]

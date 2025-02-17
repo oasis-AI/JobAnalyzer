@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "alembic>=1.14.1",
     "fastapi[standard]>=0.115.8",
+    "pendulum>=3.0.0",
     "psycopg2-binary>=2.9.10",
     "pydantic-settings>=2.7.1",
     "pymysql>=1.1.1",
@@ -17,6 +18,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "commitizen>=4.1.1",
+    "ipykernel>=6.29.5",
     "pre-commit>=4.1.0",
     "ruff>=0.9.4",
 ]
@@ -59,7 +61,7 @@ extend-exclude = [
 ]
 
 # Same as Black.
-line-length = 88
+line-length = 100
 indent-width = 4
 
 # Assume Python 3.9
